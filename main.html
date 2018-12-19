@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="index.min.js"></script>
+</head>
+<body>
+	
+
+
+</body>
+<script>
+	const node = new Ipfs()
+	console.log(node)
+
+	node.on('ready', function() {
+	  node.files.add(new node.types.Buffer("prabath"), (err, filesAdded) => {
+
+	    console.log("files added : ",  filesAdded[0]["hash"]);
+	    get_data(filesAdded[0]["hash"])
+	  })
+	})
+
+	function get_data(hash){
+		 node.files.get(hash, function (err, files) {
+		    files.forEach((file) => {
+		      console.log(file.path)
+		      console.log(file.content.toString('utf8'))
+		      cont = JSON.parse(file.content);
+		      cont['_id'] = hash;
+		      write_content(cont);
+		    })
+		})
+
+	}_
+</script>
+</html>
